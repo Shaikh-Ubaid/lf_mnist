@@ -9,6 +9,19 @@ lfortran -c examples/xerbla.f -o xerbla.o --implicit-interface --fixed-form --ge
 
 
 
+lfortran -c src/expr2.f90 --target=wasm32-wasi --implicit-interface
+lfortran -c src/lapack.f --fixed-form --target=wasm32-wasi
+/Users/ubaid/ext/wasi-sdk-19.0/bin/clang --target=wasm32-wasi -nostartfiles -Wl,--entry=my_start -Wl,-lwasi-emulated-process-clocks -o my_app expr2.o lapack.o /Users/ubaid/Desktop/OpenSource/lfortran/src/bin/../runtime/lfortran_runtime_wasm_wasi.o -Wl,-zstack-size=52428800 -Wl,--initial-memory=268435456 -Wl,--max-memory=268435456
+
+
+
+lfortran -c src/expr2.f90 --target=wasm32-unknown-emscripten --implicit-interface --skip-pass unused_functions
+lfortran -c src/lapack.f --fixed-form --target=wasm32-unknown-emscripten
+
+/Users/ubaid/ext/emsdk/upstream/emscripten/emcc --target=wasm32-unknown-emscripten -sSTACK_SIZE=50mb -sINITIAL_MEMORY=256mb -o mnist.js expr2.o lapack.o /Users/ubaid/Desktop/OpenSource/lfortran/src/bin/../runtime/lfortran_runtime_wasm_emcc.o --no-entry -sEXPORTED_FUNCTIONS=_classifier,_malloc,_free
+
+
+
 (lf) ubaid@ubaids-MacBook-Pro lf_mnist % lfortran -c src/expr2.f90 --implicit-interface --target=wasm32-wasi --skip-pass unused_functions
 warning: Argument `access` isn't supported yet
   --> src/expr2.f90:26:5
