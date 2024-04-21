@@ -20,6 +20,7 @@ lfortran -c src/lapack.f --fixed-form --target=wasm32-unknown-emscripten
 
 /Users/ubaid/ext/emsdk/upstream/emscripten/emcc --target=wasm32-unknown-emscripten -sSTACK_SIZE=50mb -sINITIAL_MEMORY=256mb -o mnist.js expr2.o lapack.o /Users/ubaid/Desktop/OpenSource/lfortran/src/bin/../runtime/lfortran_runtime_wasm_emcc.o --no-entry -sEXPORTED_FUNCTIONS=_classifier,_malloc,_free
 
+lfortran -c src2/expr2.f90 --generate-object-code --rtlib --target=wasm32-unknown-emscripten
 
 
 (lf) ubaid@ubaids-MacBook-Pro lf_mnist % lfortran -c src/expr2.f90 --implicit-interface --target=wasm32-wasi --skip-pass unused_functions
